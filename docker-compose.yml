@@ -2,13 +2,14 @@ version: '3'
 services:
   jenkins:
     container_name: jenkins
-    image: jenkins-ansible
+    image: jenkins/docker
     build:
-      context: jenkins-ansible
+      context: pipeline
     ports:
       - "9090:8080"
     volumes:
       - $PWD/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - net
   
@@ -39,6 +40,19 @@ services:
       context: web
     ports:
       - "80:80"
+    networks:
+      - net
+
+  git:
+    container_name: git-server
+    image: 'gitlab/gitlab-ee:latest'
+    hostname: 'gitlab.example.com'
+    ports:
+      - '8090:80'
+    volumes:
+      - '$PWD/gitlab_home/config:/etc/gitlab'
+      - '$PWD/gitlab_home/logs:/var/log/gitlab'
+      - '$PWD/gitlab_home/data:/var/opt/gitlab'
     networks:
       - net
 

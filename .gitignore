@@ -4,3 +4,8 @@ centos7/remote-key.pub
 
 db_data
 new_user_credentials.csv
+
+gitlab_home
+
+pipeline/java-app
+pipeline/jenkins/build/*.jar
